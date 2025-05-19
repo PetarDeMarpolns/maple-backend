@@ -7,6 +7,7 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 하지만, API의 진입점이 Gateway 서버 하나인 것과 HTTP 프록시로 각 서버에 라우팅하는 구조라는 것을 고려하면 운영 환경을 제한 아키텍처 관점에서만 MSA구조를 띄고 있습니다.
 
 💡Auth서버는 port넘버 3000, Gateway서버는 3001, Event서버는 3002에서 진행하였으며,
+  모든 API의 진입 요청점은 명세에 따라 3001번인 Gateway서버에서 진입할 수 있습니다.
   각각의 DB는 해당 서버의 .env파일에 첨부하였습니다. (MongoDB 사용)
 
 
