@@ -216,13 +216,19 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 3. `POST /events/:id/reward-setting` → 관리자 보상 등록
 4. `POST /events/:id/participate` → 유저 이벤트 참여
 5. DB에서 `conditionMet: 1` 을 수동으로 변경
-        MongoShell : 
+6. 
+        <MongoShell console>
+   
         db.participations.updateOne(
+   
             { userId: "<userid>", eventId: ObjectId("<eventid>") },
+   
             { $set: { conditionMet: 1 } }
+   
         )
-6. `POST /events/:id/reward` → 유저 보상 수령
-7. `GET /events/logs/reward-requests` → 관리자 로그 확인
+   
+8. `POST /events/:id/reward` → 유저 보상 수령
+9. `GET /events/logs/reward-requests` → 관리자 로그 확인
 
 💡 단위테스트를 위해 postman을 사용하여 각 서버에 raw JSON쿼리를 날려보았습니다.
 
