@@ -140,33 +140,52 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 ## 🛠 DB 구조 요약
 ### 📄 User (필수 : ✅)
 | username | string    | 유저 ID (고유)                      | ✅
+
 | password | string    | 비밀번호 (암호화된 문자열)            | ✅
+
 | roles    | string\[] | 유저 역할 목록                      | ✅
 
 ### 📄 Event (필수 : ✅)
 | title       | string | 이벤트 제목                     | ✅
+
 | description | string | 이벤트 설명                     | ✅
+
 | condition   | string | 보상 조건 설명                   | ✅
+
 | startDate   | Date   | 이벤트 시작일                    | ✅
+
 | endDate     | Date   | 이벤트 종료일                    | ✅
+
 | reward      | object | 보상 정보 (`item`, `quantity`) | ✅  | { item: '', quantity: '' }
+
 | createdAt   | Date   | 생성일 (자동 생성)                | -  | 시스템 자동 생성
+
 | updatedAt   | Date   | 수정일 (자동 생성)                | -  | 시스템 자동 생성
 
 ### 📄 Participation (필수 : ✅)
 | userId        | string   | 참여한 유저의 ID                   | ✅
+
 | eventId       | ObjectId | 이벤트 ID (Event와 참조 관계)        | ✅
+
 | rewardClaimed | boolean  | 보상 수령 여부                     | 기본값 : false
+
 | conditionMet  | number   | 조건 충족 여부 (`0`: 미충족, `1`: 충족) | 기본값 : 0
+
 | createdAt     | Date     | 생성일                          | 시스템 자동 생성
+
 | updatedAt     | Date     | 수정일                          | 시스템 자동 생성
 
 ### 📄 RewardRequestLog (필수 : ✅)
 | userId    | string   | 요청한 유저 ID           | ✅
+
 | eventId   | ObjectId | 이벤트 ID (Event 참조)   | ✅
+
 | status    | enum     | 요청 상태 (`SUCCESS`, `ALREADY_CLAIMED`, `NOT_PARTICIPATED`, `CONDITION_NOT_MET`) | ✅ (상태 기록) 
+
 | message   | string   | 실패 사유 등의 설명  | (선택사항)
+
 | reward    | object   | 보상 정보 (`item`, `quantity) |(성공 시만 기록 가능)
+
 | createdAt | Date     | 로그 생성 시간             | (시스템 자동 생성)
 
 
@@ -263,7 +282,9 @@ maple-backend/
 
 ### Gateway 프록시 설정
 API 진입점을 gateway-server로 통합하면서 인증 서버(auth-server) 및 이벤트 서버(event-server)로의 HTTP 중계가 필요해졌고, 이를 위해 처음 사용해보는 @nestjs/axios를 도입했습니다.
+
 프록시 구현 과정에서 Content-Length 헤더 문제로 인해 요청이 중간에 끊기는 이슈가 발생했으며, 원인을 분석하고 헤더를 제거하거나 수정하는 방식으로 대응하였습니다.
+
 이러한 구조는 MSA 기반이었기 때문에 의존성이나 로직 결합도가 낮아, 리팩토링 과정은 예상보다 수월하게 진행되었습니다.
 
 
@@ -273,7 +294,9 @@ API 진입점을 gateway-server로 통합하면서 인증 서버(auth-server) �
 🚀 발전 가능 사항
 ## 보상 조건 검증 로직의 실제 구현 미흡
 현재는 보상 조건이 단순히 conditionMet: true로 수동 설정하는 구조라서서, 실제로 조건을 충족했는지에 대한 로직 검증은 포함되어 있지 않습니다.
+
 예를 들어, “7일 연속 출석”과 같은 조건은 단순히 Boolean으로 처리되고 있으나, 실제로 7일 간의 출석 여부를 기록하고 검증하는 시스템은 구현되어 있지 않습니다.
+
 추후 보상 조건을 동적으로 평가할 수 있는 이벤트 트래킹 시스템과 Rule Engine을 도입하면 더 정교한 이벤트 운영이 될 것입니다.
 
 
