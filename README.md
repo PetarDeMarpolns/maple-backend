@@ -50,6 +50,7 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 ✅ 역할 관리 : JWT에 role 포함 (USER,OPERATOR,AUDITOR,ADMIN)
 
 ✅ 역할별 접근 제어
+
     - USER → 보상 요청 가능
     
     - ADMIN → 이벤트/보상 등록 가능
