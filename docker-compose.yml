@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:8.0
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  auth-server:
+    build:
+      context: ./auth-server
+    container_name: auth-server
+    ports:
+      - '3003:3000'
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/auth-db
+      - JWT_SECRET=supersecret
+      - JWT_EXPIRES_IN=1h
+    depends_on:
+      - mongo
+
+  event-server:
+    build:
+      context: ./event-server
+    container_name: event-server
+    ports:
+      - '3004:3002'
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/event-db
+      - JWT_SECRET=supersecret
+      - JWT_EXPIRES_IN=1h
+    depends_on:
+      - mongo
+
+  gateway-server:
+    build:
+      context: ./gateway-server
+    container_name: gateway-server
+    ports:
+      - '3005:3001'
+    environment:
+      - JWT_SECRET=supersecret
+      - JWT_EXPIRES_IN=1h
+    depends_on:
+      - auth-server
+      - event-server
+
+volumes:
+  mongo-data:
