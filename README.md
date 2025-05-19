@@ -8,7 +8,10 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 
 💡Auth서버는 port넘버 3000, Gateway서버는 3001, Event서버는 3002에서 진행하였으며,
   모든 API의 진입 요청점은 명세에 따라 3001번인 Gateway서버에서 진입할 수 있습니다.
-  각각의 DB는 해당 서버의 .env파일에 첨부하였습니다. (MongoDB 사용)
+  각각의 DB의 정보는 해당 서버의 .env파일에 첨부하였습니다. (MongoDB 사용)
+
+💡이벤트 조건 달성은 OPERATOR와 ADMIN이 event-db의 ConditionMet 변수를 수동으로 바꿔야 합니다.
+  README.md의 최하단부 "발전 가능 사항"에 기술해 놓았으니 참고 부탁드립니다.
 
 
 ---
@@ -22,6 +25,15 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 
 
 ---
+
+
+## 🐳 Docker Compose 실행 방법
+docker-compose.yml을 프로젝트의 루트에 첨부해두었습니다.
+루트 디렉토리에서 'docker-compose up -d' 로 백그라운드 실행을 한 후
+
+---
+
+
 
 
 ## 👥 역할 및 권한 정의
@@ -216,8 +228,7 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 3. `POST /events/:id/reward-setting` → 관리자 보상 등록
 4. `POST /events/:id/participate` → 유저 이벤트 참여
 5. DB에서 `conditionMet: 1` 을 수동으로 변경
-6. 
-        <MongoShell console>
+6. <MongoShell console>
    
         db.participations.updateOne(
    
@@ -307,7 +318,7 @@ API 진입점을 gateway-server로 통합하면서 인증 서버(auth-server) �
 
 ## 🚀 발전 가능 사항
 ### 보상 조건 검증 로직의 실제 구현 미흡
-현재는 보상 조건이 단순히 conditionMet: true로 수동 설정하는 구조라서서, 실제로 조건을 충족했는지에 대한 로직 검증은 포함되어 있지 않습니다.
+현재는 보상 조건이 단순히 conditionMet: true로 수동 설정하는 구조라서, 실제로 조건을 충족했는지에 대한 로직 검증은 포함되어 있지 않습니다.
 
 예를 들어, “7일 연속 출석”과 같은 조건은 단순히 Boolean으로 처리되고 있으나, 실제로 7일 간의 출석 여부를 기록하고 검증하는 시스템은 구현되어 있지 않습니다.
 
