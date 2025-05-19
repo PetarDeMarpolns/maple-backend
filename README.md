@@ -229,51 +229,92 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 
 ## 📂 주요 폴더 구조
 maple-backend/
+
 ├── gateway-server/
+
 │   └── src/
+
 │       ├── main.ts
+
 │       ├── app.module.ts
+
 │       ├── proxy.controller.ts         # 이벤트/인증 요청 프록시 처리
+
 │       ├── auth.controller.ts          # 인증 테스트용 API (JwtAuthGuard, RolesGuard 검증용)
+
 │       └── common/
+
 │           ├── guards/
+
 │           │   ├── jwt-auth.guard.ts
+
 │           │   └── roles.guard.ts
+
 │           └── decorators/
+
 │               └── roles.decorator.ts
 
 ├── auth-server/
+
 │   └── src/
+
 │       ├── main.ts
+
 │       ├── app.module.ts
+
 │       └── modules/
+
 │           └── auth/
+
 │               ├── auth.controller.ts       # 로그인, 회원가입, JWT 발급
+
 │               ├── auth.service.ts
+
 │               ├── auth.module.ts
+
 │               ├── dto/
+
 │               │   ├── create-user.dto.ts
+
 │               │   └── login.dto.ts
+
 │               ├── schemas/
+
 │               │   └── user.schema.ts
+
 │               └── strategy/
+
 │                   └── jwt.strategy.ts
 
 ├── event-server/
+
 │   └── src/
+
 │       ├── main.ts
+
 │       ├── app.module.ts
+
 │       └── modules/
+
 │           └── event/
 │               ├── event.controller.ts      # 이벤트/참여/보상/로그 API
+
 │               ├── event.service.ts
+
 │               ├── event.module.ts
+
 │               ├── dto/
+
 │               │   ├── create-event.dto.ts
+
 │               │   └── create-reward.dto.ts
+
 │               └── schemas/
+
 │                   ├── event.schema.ts
+
 │                   ├── participation.schema.ts
+
 │                   └── reward-log.schema.ts
 
 
