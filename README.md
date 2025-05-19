@@ -240,90 +240,50 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 maple-backend/
 
 ├── gateway-server/
-
 │   └── src/
-
 │       ├── main.ts
-
 │       ├── app.module.ts
-
 │       ├── proxy.controller.ts         # 이벤트/인증 요청 프록시 처리
-
 │       ├── auth.controller.ts          # 인증 테스트용 API (JwtAuthGuard, RolesGuard 검증용)
-
 │       └── common/
-
 │           ├── guards/
-
 │           │   ├── jwt-auth.guard.ts
-
 │           │   └── roles.guard.ts
-
 │           └── decorators/
-
 │               └── roles.decorator.ts
 
 ├── auth-server/
-
 │   └── src/
-
 │       ├── main.ts
-
 │       ├── app.module.ts
-
 │       └── modules/
-
 │           └── auth/
-
 │               ├── auth.controller.ts       # 로그인, 회원가입, JWT 발급
-
 │               ├── auth.service.ts
-
 │               ├── auth.module.ts
-
 │               ├── dto/
-
 │               │   ├── create-user.dto.ts
-
 │               │   └── login.dto.ts
-
 │               ├── schemas/
-
 │               │   └── user.schema.ts
-
 │               └── strategy/
-
 │                   └── jwt.strategy.ts
 
 ├── event-server/
-
 │   └── src/
-
 │       ├── main.ts
-
 │       ├── app.module.ts
-
 │       └── modules/
-
 │           └── event/
 │               ├── event.controller.ts      # 이벤트/참여/보상/로그 API
-
 │               ├── event.service.ts
-
 │               ├── event.module.ts
-
 │               ├── dto/
-
 │               │   ├── create-event.dto.ts
-
 │               │   └── create-reward.dto.ts
-
 │               └── schemas/
-
 │                   ├── event.schema.ts
-
 │                   ├── participation.schema.ts
-
 │                   └── reward-log.schema.ts
 
 
@@ -345,8 +305,8 @@ API 진입점을 gateway-server로 통합하면서 인증 서버(auth-server) �
 ---
 
 
-🚀 발전 가능 사항
-## 보상 조건 검증 로직의 실제 구현 미흡
+## 🚀 발전 가능 사항
+### 보상 조건 검증 로직의 실제 구현 미흡
 현재는 보상 조건이 단순히 conditionMet: true로 수동 설정하는 구조라서서, 실제로 조건을 충족했는지에 대한 로직 검증은 포함되어 있지 않습니다.
 
 예를 들어, “7일 연속 출석”과 같은 조건은 단순히 Boolean으로 처리되고 있으나, 실제로 7일 간의 출석 여부를 기록하고 검증하는 시스템은 구현되어 있지 않습니다.
