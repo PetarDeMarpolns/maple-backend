@@ -62,6 +62,7 @@ docker-compose.yml을 프로젝트의 루트에 첨부해두었습니다.
 💡역할은 @Roles() 데코레이터 기반으로 제어되며, JWT 토큰 내 포함된 role 정보를 기준으로 접근 제어됩니다.
 
 💡등록을 하면 role:'User' 가 default이며, 해당 유저의 권한 변경은
+
 예시 : <MongoShell Console>
 
   db.users.updateOne(
