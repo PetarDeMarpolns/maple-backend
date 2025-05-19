@@ -51,8 +51,11 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 
 ✅ 역할별 접근 제어
     - USER → 보상 요청 가능
+    
     - ADMIN → 이벤트/보상 등록 가능
+    
     - OPERATOR → 전체 기능 접근 가능
+    
     - AUDITOR → 보상 이력 열람 가능
 
 
