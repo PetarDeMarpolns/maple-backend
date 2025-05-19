@@ -28,7 +28,9 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 | USER | 이벤트 참여 및 보상 수령 가능 | 🟢 일반 사용자 
 
 | OPERATOR | 보상 등록/수정 가능 | 🟡 중간 관리자
+
 | AUDITOR | 참여 현황, 보상 요청 로그 열람 가능 | 🔵 감사 전용
+
 | ADMIN | 이벤트 등록, 보상 등록/수정, 로그 조회 등 전체 권한 | 🔴 전체 권한
 
 💡역할은 @Roles() 데코레이터 기반으로 제어되며, JWT 토큰 내 포함된 role 정보를 기준으로 접근 제어됩니다.
@@ -42,8 +44,11 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 회원가입, 로그인, JWT 발급, 역할(Role) 기반 권한 제어 담당
 
 ✅ 유저 등록 : 기본 유저 계정 등록 API
+
 ✅ 로그인 : 로그인 시 JWT 액세스 토큰 발급
+
 ✅ 역할 관리 : JWT에 role 포함 (USER,OPERATOR,AUDITOR,ADMIN)
+
 ✅ 역할별 접근 제어
     - USER → 보상 요청 가능
     - ADMIN → 이벤트/보상 등록 가능
@@ -55,11 +60,17 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 이벤트 생성, 참여, 보상 등록 및 수령, 보상 이력 관리 담당
 
 ✅ 이벤트 생성 : 운영자 또는 관리자가 이벤트 등록
+
 ✅ 이벤트 목록 조회 : 모든 유저가 전체 이벤트 확인 가능
+
 ✅ 보상 등록 : 이벤트별 보상 정보 등록 및 수정 (OPERATOR/ADMIN 전용)
+
 ✅ 유저 보상 요청 : 유저는 참여한 이벤트에 대해 보상 요청 가능
+
 ✅ 조건 검증 : 보상 수령 전 시스템에서 조건 충족 여부 검증
+
 ✅ 중복 방지 : 이미 보상 수령 시 재요청 방지
+
 ✅ 로그 기록 : 모든 보상 요청에 대한 기록 저장 (RewardLog)
 
 
@@ -67,7 +78,9 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 모든 외부 요청의 진입점, 인증 및 권한 검사, 서비스 간 라우팅 처리
 
 ✅ 요청 프록시 : /auth/*, /events/* 요청을 각 서비스로 라우팅
+
 ✅ 인증 처리 : 요청 시 Authorization 헤더 내 JWT 유효성 검사
+
 ✅ 역할 검사 : JWT 내 role을 기반으로 API 접근 권한 판단
 
 
@@ -92,22 +105,32 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 ## 📡 주요 API 목록
 ### 🟢 Auth Server (/auth)
 | POST      | /auth/register    | 사용자 회원가입
+
 | POST      | /auth/login       | 로그인/JWT발급
 
 ### 🟡 Event Server (/events)
 📘 유저 API (✅:인증 토큰 필요)
 | GET    | /events                       | 전체 이벤트 목록 조회
+
 | GET    | /events/<eventId>/status      | 자신의 이벤트 참여 여부 및 보상 수령 여부 조회    | ✅ USER |
+
 | GET    | /events/mine                  | 자신이 참여한 이벤트 목록 조회              | ✅ USER |
+
 | POST   | /events/<eventId>/participate | 특정 이벤트에 참여 요청                  | ✅ USER |
+
 | POST   | /events/<eventId>/reward      | 보상 수령 요청 (조건 충족 여부 검증 및 중복 방지) | ✅ USER |
 
 🔴 관리자 / 운영자 API (✅:인증 토큰 필요)
 | POST   | /events                          | 이벤트 생성            | ✅OPERATOR,ADMIN
+
 | POST   | /events/<eventId>/reward-setting | 이벤트 보상 등록         | ✅OPERATOR,ADMIN
+
 | PUT    | /events/<eventId>/reward         | 이벤트 보상 수정         | ✅OPERATOR,ADMIN
+
 | GET    | /events/<eventId>/participants   | 해당 이벤트 참여자 목록 조회  | ✅AUDITOR,ADMIN
+
 | GET    | /events/all/participations       | 전체 참여 기록 조회       | ✅OPERATOR,AUDITOR,ADMIN
+
 | GET    | /events/logs/reward-requests     | 보상 수령 요청 로그 전체 조회 | ✅AUDITOR,ADMIN
 
 
