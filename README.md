@@ -26,6 +26,7 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 
 ## 👥 역할 및 권한 정의
 | USER | 이벤트 참여 및 보상 수령 가능 | 🟢 일반 사용자 
+
 | OPERATOR | 보상 등록/수정 가능 | 🟡 중간 관리자
 | AUDITOR | 참여 현황, 보상 요청 로그 열람 가능 | 🔵 감사 전용
 | ADMIN | 이벤트 등록, 보상 등록/수정, 로그 조회 등 전체 권한 | 🔴 전체 권한
