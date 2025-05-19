@@ -108,12 +108,14 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 
 ## 📡 주요 API 목록
 ### 🟢 Auth Server (/auth)
+
 | POST      | /auth/register    | 사용자 회원가입
 
 | POST      | /auth/login       | 로그인/JWT발급
 
 ### 🟡 Event Server (/events)
 📘 유저 API (✅:인증 토큰 필요)
+
 | GET    | /events                       | 전체 이벤트 목록 조회
 
 | GET    | /events/<eventId>/status      | 자신의 이벤트 참여 여부 및 보상 수령 여부 조회    | ✅ USER |
@@ -125,6 +127,7 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 | POST   | /events/<eventId>/reward      | 보상 수령 요청 (조건 충족 여부 검증 및 중복 방지) | ✅ USER |
 
 🔴 관리자 / 운영자 API (✅:인증 토큰 필요)
+
 | POST   | /events                          | 이벤트 생성            | ✅OPERATOR,ADMIN
 
 | POST   | /events/<eventId>/reward-setting | 이벤트 보상 등록         | ✅OPERATOR,ADMIN
