@@ -29,7 +29,21 @@ NestJS + MSA + MongoDB를 기반으로 하며, USER/OPERATOR/AUDITOR/ADMIN 권�
 
 ## 🐳 Docker Compose 실행 방법
 docker-compose.yml을 프로젝트의 루트에 첨부해두었습니다.
-루트 디렉토리에서 'docker-compose up -d' 로 백그라운드 실행을 한 후
+루트 디렉토리에서 'docker-compose up' 명령어로 실행을 하면
+각 서버의 Dockerfile을 기반으로 DB가 생성됩니다.
+
+총 4개의 서비스가 정의됩니다.
+
+| 서비스명      | 내부 포트 | 외부 노출 포트 |
+
+| mongo          | 27017 | 27017 |
+
+| auth-server    | 3000  | 3003 |
+
+| event-server   | 3002  | 3004 |
+
+| gateway-server | 3001  | 3005 |
+
 
 ---
 
@@ -46,6 +60,16 @@ docker-compose.yml을 프로젝트의 루트에 첨부해두었습니다.
 | ADMIN | 이벤트 등록, 보상 등록/수정, 로그 조회 등 전체 권한 | 🔴 전체 권한
 
 💡역할은 @Roles() 데코레이터 기반으로 제어되며, JWT 토큰 내 포함된 role 정보를 기준으로 접근 제어됩니다.
+
+💡등록을 하면 role:'User' 가 default이며, 해당 유저의 권한 변경은
+예시 : <MongoShell Console>
+
+  db.users.updateOne(
+    { username: "testuser" },
+    { $set: { roles: ["ADMIN"] } }
+  )
+
+와 같이 직접 수동으로 바꿔야합니다. (민감정보사항)
 
 
 ---
@@ -228,14 +252,11 @@ docker-compose.yml을 프로젝트의 루트에 첨부해두었습니다.
 3. `POST /events/:id/reward-setting` → 관리자 보상 등록
 4. `POST /events/:id/participate` → 유저 이벤트 참여
 5. DB에서 `conditionMet: 1` 을 수동으로 변경
-6. <MongoShell console>
+6. 예시 : <MongoShell console>
    
         db.participations.updateOne(
-   
-            { userId: "<userid>", eventId: ObjectId("<eventid>") },
-   
+            { userId: "<userid>", eventId: ObjectId("<eventid>") }, 
             { $set: { conditionMet: 1 } }
-   
         )
    
 8. `POST /events/:id/reward` → 유저 보상 수령
